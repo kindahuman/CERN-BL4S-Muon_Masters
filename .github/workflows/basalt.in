@@ -1,0 +1,42 @@
+# ---------------- Physics ----------------
+physics FTFP_BERT_EMZ doStochastics=1 fluct=1 minRangeCut=0.001
+
+# ---------------- Beam ----------------
+beam gaussian particle=mu+ nEvents=20000 \
+     meanMomentum=4000 \
+     beamX=0 beamY=0 beamZ=-10 \
+     sigmaX=0.1 sigmaY=0.1 \
+     meanXp=0 meanYp=0 \
+     sigmaXp=0.002 sigmaYp=0.002
+
+# ---------------- Detector BEFORE target ----------------
+virtualdetector Det1 radius=5 length=0.01 color=0,1,0
+place Det1 x=0 y=0 z=-3.0
+
+# ---------------- Target (3-layer basalt) ----------------
+# Diameter: 2.5 → outerRadius=1.25
+# Total length: 1.5
+# Layer lengths: SiO2=0.75, Al2O3=0.25, Fe=0.5
+
+# Layer 1: SiO2 (0.75 cm thick) - centered at z = -0.375
+tubs layer1 innerRadius=0 outerRadius=1.25 length=0.75 maxStep=0.1 \
+     material=G4_SILICON_DIOXIDE color=1,1,1
+place layer1 x=0 y=0 z=-0.375
+
+# Layer 2: Aluminum oxide (0.25 cm thick) - centered at z = 0
+tubs layer2 innerRadius=0 outerRadius=1.25 length=0.25 maxStep=0.1 \
+     material=G4_ALUMINUM_OXIDE color=1,1,1
+place layer2 x=0 y=0 z=0.0
+
+# Layer 3: Iron (0.5 cm thick) - centered at z = 0.25
+tubs layer3 innerRadius=0 outerRadius=1.25 length=0.5 maxStep=0.1 \
+     material=G4_Fe color=1,1,1
+place layer3 x=0 y=0 z=0.25
+
+# ---------------- Detector AFTER target ----------------
+virtualdetector Det2 radius=5 length=0.01 color=0,1,0
+place Det2 x=0 y=0 z=3.0
+
+# ---------------- Output ----------------
+ntuple Det1 format=ascii file=C:/Users/ryan/OneDrive/Desktop/basalt/Basalt_Det1.txt
+ntuple Det2 format=ascii file=C:/Users/ryan/OneDrive/Desktop/basalt/Basalt_Det2.txt

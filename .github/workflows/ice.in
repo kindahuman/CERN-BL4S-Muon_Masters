@@ -1,0 +1,33 @@
+# ============================================================================
+# G4beamline Simulation for Ice - Scaled to 2.5 diameter x 1.5 length
+# ============================================================================
+
+# ---------------- Physics ----------------
+physics FTFP_BERT
+
+# ---------------- Beam ----------------
+beam gaussian particle=mu+ nEvents=20000 \
+     meanMomentum=4000 \
+     beamX=0 beamY=0 beamZ=-10 \
+     sigmaX=0.085 sigmaY=0.085 \
+     meanXp=0 meanYp=0 \
+     sigmaXp=0.022 sigmaYp=0.022
+
+# ---------------- Detector BEFORE target ----------------
+virtualdetector Det1 radius=5 length=0.001 color=0,1,0
+place Det1 x=0 y=0 z=-3.0
+
+# ---------------- Target: Ice cylinder (diameter 2.5, length 1.5) ----------------
+tubs iceLayer innerRadius=0 outerRadius=1.25 length=1.5 \
+     material=G4_WATER \
+     maxStep=0.05
+
+place iceLayer x=0 y=0 z=0.0
+
+# ---------------- Detector AFTER target ----------------
+virtualdetector Det2 radius=5 length=0.001 color=0,1,0
+place Det2 x=0 y=0 z=3.0
+
+# ---------------- Output to desktop ice folder ----------------
+ntuple Det1 format=ascii file=C:/Users/ryan/OneDrive/Desktop/ice/ICE_Det1.txt
+ntuple Det2 format=ascii file=C:/Users/ryan/OneDrive/Desktop/ice/ICE_Det2.txt

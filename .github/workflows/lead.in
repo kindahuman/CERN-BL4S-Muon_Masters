@@ -1,0 +1,30 @@
+# ---------------- Physics ----------------
+physics FTFP_BERT_EMZ
+
+# ---------------- Beam ----------------
+beam gaussian particle=mu+ nEvents=20000 \
+     meanMomentum=4000 \
+     beamX=0 beamY=0 beamZ=-5 \
+     sigmaX=0.085 sigmaY=0.085 \
+     meanXp=0 meanYp=0 \
+     sigmaXp=0.022 sigmaYp=0.022
+
+# ---------------- Detector BEFORE target ----------------
+virtualdetector Det1 radius=5 length=0.001 color=0,1,0
+place Det1 x=0 y=0 z=-2.0
+
+# ---------------- Target (Lead cylinder: diameter 2.5, length 1.5) ----------------
+tubs leadTarget innerRadius=0 outerRadius=1.25 length=1.5 \
+     material=G4_Pb \
+     maxStep=0.05 \
+     color=1,1,1
+
+place leadTarget x=0 y=0 z=0
+
+# ---------------- Detector AFTER target ----------------
+virtualdetector Det2 radius=5 length=0.001 color=0,1,0
+place Det2 x=0 y=0 z=2.0
+
+# ---------------- Output to desktop lead folder ----------------
+ntuple Det1 format=ascii file=C:/Users/ryan/OneDrive/Desktop/iron/LEAD_Det1.txt
+ntuple Det2 format=ascii file=C:/Users/ryan/OneDrive/Desktop/iron/LEAD_Det2.txt
